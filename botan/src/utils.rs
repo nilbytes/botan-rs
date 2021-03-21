@@ -1,5 +1,7 @@
 use botan_sys::*;
 
+use std::error::Error as StdError;
+
 #[cfg(feature = "no-std")]
 pub(crate) use alloc::prelude::v1::*;
 
@@ -133,6 +135,16 @@ impl From<i32> for Error {
         }
     }
 }
+
+//TODO: Better display for errors
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl StdError for Error {}
+
 
 /// Specifies valid keylengths for symmetric ciphers/MACs
 pub struct KeySpec {
